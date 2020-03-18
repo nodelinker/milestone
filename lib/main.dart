@@ -295,7 +295,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               Positioned(
                 right: 1,
                 bottom: 1,
-                child: _buildEventsMarker(date, events),
+                // child: _buildEventsMarker(date, events),
+                child: null,
               ),
             );
           }
