@@ -60,7 +60,7 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
         holidays: null,
 
         headerVisible: false, // 不显示calendar header
-        initialCalendarFormat: CalendarFormat.month,
+        initialCalendarFormat: CalendarFormat.week,
         formatAnimation: FormatAnimation.scale,
         availableGestures: AvailableGestures.all,
 

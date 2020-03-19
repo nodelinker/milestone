@@ -1,6 +1,0 @@
-
-class Settings{
-
-  String locale;
-
-}

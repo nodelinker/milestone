@@ -1,7 +1,6 @@
 
+import 'package:milestone_app/models/date_model.dart';
 import 'package:milestone_app/utils/solar_term_util.dart';
-import 'package:milestone_app/viewmodels/date_model.dart';
-
 
 class CalendarConstants {
 
