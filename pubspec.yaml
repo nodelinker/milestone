@@ -27,7 +27,9 @@ dependencies:
   provider_architecture: ^1.0.6
   path_provider: ^1.6.5
   get_it: ^4.0.0
-  table_calendar: ^2.2.2
+  table_calendar: ^2.2.3
+  intl: ^0.16.1
+
 
 
 dev_dependencies:
