@@ -50,10 +50,10 @@ Future buildShowModalBottomSheet(BuildContext context) {
                   Row(
                     textDirection: TextDirection.rtl,
                     children: <Widget>[
-                      FlatButton(onPressed: null, child: Text("添加任务")),
+                      FlatButton(onPressed: () {}, child: Text("添加任务")),
                       Expanded(
                           child: Padding(
-                        padding: const EdgeInsets.only(left:15.0),
+                        padding: const EdgeInsets.only(left: 15.0, right: 15),
                         child: TextFormField(
                           decoration: InputDecoration(
                               border: InputBorder.none, hintText: "准备做什么"),
@@ -62,6 +62,72 @@ Future buildShowModalBottomSheet(BuildContext context) {
                     ],
                   ),
 
+                  Row(textDirection: TextDirection.rtl, children: [
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.only(left: 15, right: 15),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "任务描述",
+                          hintStyle:
+                              TextStyle(fontSize: 12.0, color: Colors.grey),
+                        ),
+                      ),
+                    ))
+                  ]),
+
+                  Divider(
+                    height: 1.0,
+                    color: Colors.red,
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: RaisedButton(
+                          shape: StadiumBorder(),
+                          color: Colors.blue,
+                          splashColor: Colors.blueAccent,
+                          textColor: Colors.white,
+                          onPressed: () {},
+                          child: Text("今天"),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: RaisedButton(
+                          shape: StadiumBorder(),
+                          color: Colors.blue,
+                          splashColor: Colors.blueAccent,
+                          textColor: Colors.white,
+                          onPressed: () {},
+                          child: Text("明天"),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: RaisedButton(
+                          shape: StadiumBorder(),
+                          color: Colors.blue,
+                          splashColor: Colors.blueAccent,
+                          textColor: Colors.white,
+                          onPressed: () async {
+                            final DateTime pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1970),
+                                lastDate: DateTime(2070),
+                                );
+                          },
+                          child: Text("选择日期"),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20.0)
                   // Row(
                   //   textDirection: TextDirection.rtl,
                   //   children: <Widget>[
@@ -75,27 +141,14 @@ Future buildShowModalBottomSheet(BuildContext context) {
                   //     ))
                   //   ],
                   // ),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "任务描述",
-                      hintStyle: TextStyle(fontSize: 12.0, color: Colors.grey),
-                    ),
-                  ),
-                  FlatButton(
-                    child: Text("data"),
-                    onPressed: () {},
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      IconButton(
-                        iconSize: 50,
-                        color: Colors.tealAccent,
-                        icon: Icon(Icons.calendar_today),
-                        onPressed: () {},
-                      )
-                    ],
-                  )
+
+                  // TextField(
+                  //   decoration: InputDecoration(
+                  //     hintText: "任务描述",
+                  //     hintStyle: TextStyle(fontSize: 12.0, color: Colors.grey),
+                  //     border: InputBorder.none
+                  //   ),
+                  // ),
                 ],
               ),
             ),
