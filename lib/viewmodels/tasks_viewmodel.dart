@@ -7,25 +7,33 @@ import 'package:milestone_app/models/tasks_model.dart';
 class TaskViewModel extends ChangeNotifier{
 
   List<TaskModel> events = List<TaskModel>();
-  Map<String, List<dynamic>> tasks = Map<String, List<dynamic>>();
+  Map<DateTime, List<dynamic>> tasks = Map<DateTime, List<dynamic>>();
 
 
   void addTask(DateTime datetime, TaskModel task){
 
     // debugPrint("========> ${task.taskName}, ${task.taskDesc}");
 
-    String dtFmt = DateFormat('yyyy-MM-dd').format(datetime);
+    String dtFmtstr = DateFormat('yyyy-MM-dd').format(datetime);
+    DateTime date = DateTime.parse(dtFmtstr);
 
-    List selectedEvents = tasks[dtFmt] ?? [];
+    List selectedEvents = tasks[date] ?? [];
     selectedEvents.add(task);
-    tasks[dtFmt] = selectedEvents;
+    tasks[date] = selectedEvents;
 
     selectedEvents.forEach((elems) => {
       debugPrint("aa => ${elems.taskName}, ${elems.taskDesc}")
     });
 
-    // tasks[datetime].add(task);
     notifyListeners();
+  }
+
+  List<dynamic> getTasks(DateTime datetime){
+
+    String dtFmtstr = DateFormat('yyyy-MM-dd').format(datetime);
+    DateTime date = DateTime.parse(dtFmtstr);
+    return tasks[date] ?? [];
+
   }
 
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import 'custom_calendar_cell.dart';
@@ -14,10 +16,14 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
     with TickerProviderStateMixin {
   AnimationController _animationController;
   CalendarController _calendarController;
+  TaskViewModel _taskList;
+  DateTime _selectedDay;
 
   @override
   void initState() {
     super.initState();
+
+    _selectedDay = DateTime.now();
 
     _calendarController = CalendarController();
 
@@ -38,6 +44,11 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
 
   void _onDaySelected(DateTime day, List events) {
     print('CALLBACK: _onDaySelected');
+
+    setState(() {
+      _selectedDay = day;
+    });
+    _animationController.forward(from: 0.2);
   }
 
   void _onVisibleDaysChanged(
@@ -47,54 +58,84 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: TableCalendar(
-        locale: 'zh_CN',
+    _taskList = Provider.of<TaskViewModel>(context);
 
-        calendarController: _calendarController,
-        startingDayOfWeek: StartingDayOfWeek.monday,
-        onDaySelected: _onDaySelected,
-        onVisibleDaysChanged: _onVisibleDaysChanged,
+    return Column(
+      children: <Widget>[
+        Container(
+          child: TableCalendar(
+            locale: 'zh_CN',
 
-        events: null,
-        holidays: null,
+            calendarController: _calendarController,
+            startingDayOfWeek: StartingDayOfWeek.monday,
+            onDaySelected: _onDaySelected,
+            onVisibleDaysChanged: _onVisibleDaysChanged,
 
-        headerVisible: false, // 不显示calendar header
-        initialCalendarFormat: CalendarFormat.week,
-        formatAnimation: FormatAnimation.scale,
-        availableGestures: AvailableGestures.all,
+            events: _taskList.tasks,
+            holidays: null,
 
-        availableCalendarFormats: const {
-          CalendarFormat.month: '',
-          CalendarFormat.week: '',
-        },
+            headerVisible: false, // 不显示calendar header
+            initialCalendarFormat: CalendarFormat.week,
+            formatAnimation: FormatAnimation.scale,
+            availableGestures: AvailableGestures.all,
 
-        calendarStyle: CalendarStyle(
-          outsideDaysVisible: true,
-          weekendStyle: TextStyle().copyWith(color: Colors.blue[800]),
-          holidayStyle: TextStyle().copyWith(color: Colors.blue[800]),
-          outsideStyle: TextStyle().copyWith(color: Colors.grey[400]),
+            availableCalendarFormats: const {
+              CalendarFormat.month: '',
+              CalendarFormat.week: '',
+            },
+
+            calendarStyle: CalendarStyle(
+              outsideDaysVisible: true,
+              weekendStyle: TextStyle().copyWith(color: Colors.blue[800]),
+              holidayStyle: TextStyle().copyWith(color: Colors.blue[800]),
+              outsideStyle: TextStyle().copyWith(color: Colors.grey[400]),
+            ),
+            daysOfWeekStyle: DaysOfWeekStyle(
+              weekendStyle: TextStyle().copyWith(color: Colors.grey),
+              weekdayStyle: TextStyle().copyWith(color: Colors.grey),
+            ),
+            headerStyle: HeaderStyle(
+              // centerHeaderTitle: true,
+              formatButtonVisible: false,
+              titleTextStyle: TextStyle(fontSize: 20.0, color: Colors.white),
+            ),
+
+            builders: CalendarBuilders(
+              dayBuilder: _dayBuilder, // every day
+              selectedDayBuilder: _selectedDayBuilder, //selected day
+              todayDayBuilder: _todayDayBuilder, // day of today
+              outsideDayBuilder: _outsideDayBuilder,
+              outsideWeekendDayBuilder:
+                  _outsideWeekendDayBuilder, // show the month ouside day is weekend
+              markersBuilder: _markersBuilder,
+            ),
+          ),
         ),
-        daysOfWeekStyle: DaysOfWeekStyle(
-          weekendStyle: TextStyle().copyWith(color: Colors.grey),
-          weekdayStyle: TextStyle().copyWith(color: Colors.grey),
-        ),
-        headerStyle: HeaderStyle(
-          // centerHeaderTitle: true,
-          formatButtonVisible: false,
-          titleTextStyle: TextStyle(fontSize: 20.0, color: Colors.white),
-        ),
+        const SizedBox(height: 8.0),
+        Expanded(child: Container(
+          color: Colors.white,
+          child: _buildTaskList())),
+      ],
+    );
+  }
 
-        builders: CalendarBuilders(
-          dayBuilder: _dayBuilder, // every day
-          selectedDayBuilder: _selectedDayBuilder, //selected day
-          todayDayBuilder: _todayDayBuilder, // day of today
-          outsideDayBuilder: _outsideDayBuilder,
-          outsideWeekendDayBuilder:
-              _outsideWeekendDayBuilder, // show the month ouside day is weekend
-          markersBuilder: _markersBuilder,
-        ),
-      ),
+  Widget _buildTaskList() {
+    return ListView(
+      children: _taskList
+          .getTasks(_selectedDay)
+          .map((task) => Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 0.8),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                child: ListTile(
+                  title: Text(task.taskName),
+                  onTap: () => print('$task tapped!'),
+                ),
+              ))
+          .toList(),
     );
   }
 

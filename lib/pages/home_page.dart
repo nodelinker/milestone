@@ -1,11 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:milestone_app/widget/bottom_sheet.dart';
 import 'package:milestone_app/widget/custom_calendar.dart';
 
 class MyHomePage extends StatefulWidget {
-
   const MyHomePage({
     Key key,
   }) : super(key: key);
@@ -15,7 +12,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
