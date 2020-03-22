@@ -36,4 +36,14 @@ class TaskViewModel extends ChangeNotifier{
 
   }
 
+  void setTaskState(DateTime date, String taskId, bool state){
+    List selectedEvents = tasks[date] ?? [];
+    selectedEvents.forEach((elems) => {
+      
+    });
+    
+
+    notifyListeners();
+  }
+
 }

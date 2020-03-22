@@ -3,6 +3,7 @@ import 'package:milestone_app/models/custom_colors.dart';
 import 'package:milestone_app/models/tasks_model.dart';
 import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 Future buildShowModalBottomSheet(BuildContext context) {
 
@@ -62,6 +63,8 @@ Future buildShowModalBottomSheet(BuildContext context) {
                       FlatButton(onPressed: () {
                         
                         debugPrint("picked datetime : $pickedDate");
+
+                        task.taskID = Uuid().v4();
                         taskList.addTask(pickedDate, task);
 
                         Navigator.pop(context);

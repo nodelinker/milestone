@@ -112,9 +112,8 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
           ),
         ),
         const SizedBox(height: 8.0),
-        Expanded(child: Container(
-          color: Colors.white,
-          child: _buildTaskList())),
+        Expanded(
+            child: Container(color: Colors.white, child: _buildTaskList())),
       ],
     );
   }
@@ -130,10 +129,22 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
                 ),
                 margin:
                     const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: ListTile(
-                  title: Text(task.taskName),
-                  onTap: () => print('$task tapped!'),
+                child: CheckboxListTile(
+                  value: task.isDone,
+                  onChanged: (value){
+                    debugPrint("========== ${task.taskID} ${task.taskName}");
+                    _taskList.setTaskState(_selectedDay, task.taskID, true);
+                  },
+                  title: new Text('${task.taskName}'),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  subtitle: new Text('${task.taskDesc}'),
+                  secondary: new Icon(Icons.archive),
+                  activeColor: Colors.red,
                 ),
+                // child: ListTile(
+                //   title: Text(task.taskName),
+                //   onTap: () => print('$task tapped!'),
+                // ),
               ))
           .toList(),
     );
