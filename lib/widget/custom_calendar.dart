@@ -124,23 +124,42 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
           .getTasks(_selectedDay)
           .map((task) => Container(
                 decoration: BoxDecoration(
-                  border: Border.all(width: 0.8),
+                  // border: Border.all(width: 0.8),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                child: CheckboxListTile(
-                  value: task.isDone,
-                  onChanged: (value){
-                    debugPrint("========== ${task.taskID} ${task.taskName}");
-                    _taskList.setTaskState(_selectedDay, task.taskID, true);
-                  },
-                  title: new Text('${task.taskName}'),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  subtitle: new Text('${task.taskDesc}'),
-                  secondary: new Icon(Icons.archive),
-                  activeColor: Colors.red,
+                margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+
+                child: Container(
+                  child: Column(
+                    children: [
+                      Row(
+                        children: <Widget>[
+                          Checkbox(value: task.isDone, onChanged: (value){
+                            _taskList.setTaskState(_selectedDay, task.taskID, value);
+                          }),
+                          Text("${task.taskName}", style: Theme.of(context).textTheme.body1,)
+                      ],)
+
+                    ]
+                  ),
                 ),
+
+                // checkbox listTile
+                // child: CheckboxListTile(
+                //   value: task.isDone,
+                //   onChanged: (value){
+                //     debugPrint("========== ${task.taskID} ${task.taskName}");
+                //     _taskList.setTaskState(_selectedDay, task.taskID, value);
+                //   },
+                //   title: new Text('${task.taskName}'),
+                //   controlAffinity: ListTileControlAffinity.leading,
+                //   subtitle: new Text('${task.taskDesc}'),
+                //   secondary: new Icon(Icons.archive),
+                //   activeColor: Colors.red,
+                  
+                // ),
+
+                // listTile show description
                 // child: ListTile(
                 //   title: Text(task.taskName),
                 //   onTap: () => print('$task tapped!'),
