@@ -5,9 +5,9 @@ import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-Future buildShowModalBottomSheet(BuildContext context) {
+Future buildShowModalBottomSheet(BuildContext context, showTempTask) {
 
-  DateTime pickedDate = DateTime.now();
+  DateTime pickedDate = showTempTask?.datetime ?? DateTime.now();
   TaskModel task = TaskModel();
   final taskList = Provider.of<TaskViewModel>(context, listen: false);
 
@@ -65,6 +65,7 @@ Future buildShowModalBottomSheet(BuildContext context) {
                         debugPrint("picked datetime : $pickedDate");
 
                         task.taskID = Uuid().v4();
+                        task.datetime = pickedDate;
                         taskList.addTask(pickedDate, task);
 
                         Navigator.pop(context);
@@ -74,7 +75,9 @@ Future buildShowModalBottomSheet(BuildContext context) {
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(left: 15.0, right: 15),
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: showTempTask?.taskName,
+                          
                           onChanged: (value){
                             task.taskName = value;
                           },
@@ -89,7 +92,8 @@ Future buildShowModalBottomSheet(BuildContext context) {
                     Expanded(
                         child: Padding(
                       padding: const EdgeInsets.only(left: 15, right: 15),
-                      child: TextField(
+                      child: TextFormField(
+                        initialValue: showTempTask?.taskDesc,
                         onChanged: (value){
                           task.taskDesc = value;
                         },

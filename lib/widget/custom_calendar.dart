@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:milestone_app/models/tasks_model.dart';
 import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
+import 'package:milestone_app/widget/bottom_sheet.dart';
+import 'package:milestone_app/widget/checkbox_list_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -17,13 +20,15 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
   AnimationController _animationController;
   CalendarController _calendarController;
   TaskViewModel _taskList;
-  DateTime _selectedDay;
+  DateTime _calendarSelectedDay;
+
+  TaskModel _showTempTask;
 
   @override
   void initState() {
     super.initState();
 
-    _selectedDay = DateTime.now();
+    _calendarSelectedDay = DateTime.now();
 
     _calendarController = CalendarController();
 
@@ -46,7 +51,7 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
     print('CALLBACK: _onDaySelected');
 
     setState(() {
-      _selectedDay = day;
+      _calendarSelectedDay = day;
     });
     _animationController.forward(from: 0.2);
   }
@@ -102,7 +107,7 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
 
             builders: CalendarBuilders(
               dayBuilder: _dayBuilder, // every day
-              selectedDayBuilder: _selectedDayBuilder, //selected day
+              selectedDayBuilder: _calendarSelectedDayBuilder, //selected day
               todayDayBuilder: _todayDayBuilder, // day of today
               outsideDayBuilder: _outsideDayBuilder,
               outsideWeekendDayBuilder:
@@ -121,7 +126,7 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
   Widget _buildTaskList() {
     return ListView(
       children: _taskList
-          .getTasks(_selectedDay)
+          .getTasks(_calendarSelectedDay)
           .map((task) => Container(
                 decoration: BoxDecoration(
                   // border: Border.all(width: 0.8),
@@ -129,35 +134,44 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
                 ),
                 margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
 
-                child: Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: <Widget>[
-                          Checkbox(value: task.isDone, onChanged: (value){
-                            _taskList.setTaskState(_selectedDay, task.taskID, value);
-                          }),
-                          Text("${task.taskName}", style: Theme.of(context).textTheme.body1,)
-                      ],)
+                // child: Container(
+                //   child: Column(
+                //     children: [
+                //       Row(
+                //         children: <Widget>[
+                //           Checkbox(value: task.isDone, onChanged: (value){
+                //             _taskList.setTaskState(_calendarSelectedDay, task.taskID, value);
+                //           }),
+                //           Text("${task.taskName}", style: Theme.of(context).textTheme.body1,)
+                //       ],)
 
-                    ]
-                  ),
-                ),
+                //     ]
+                //   ),
+                // ),
 
                 // checkbox listTile
-                // child: CheckboxListTile(
-                //   value: task.isDone,
-                //   onChanged: (value){
-                //     debugPrint("========== ${task.taskID} ${task.taskName}");
-                //     _taskList.setTaskState(_selectedDay, task.taskID, value);
-                //   },
-                //   title: new Text('${task.taskName}'),
-                //   controlAffinity: ListTileControlAffinity.leading,
-                //   subtitle: new Text('${task.taskDesc}'),
-                //   secondary: new Icon(Icons.archive),
-                //   activeColor: Colors.red,
-                  
-                // ),
+                child: MyCheckboxListTile(
+                  value: task.isDone,
+                  onChanged: (value) {
+                    debugPrint("========== ${task.taskID} ${task.taskName}");
+                    _taskList.setTaskState(
+                        _calendarSelectedDay, task.taskID, value);
+                  },
+                  title: new Text(
+                    '${task.taskName}', 
+                    style: _taskNameStyle(task.isDone),
+                  ),
+                  controlAffinity: ListTileControlAffinity.leading,
+                  subtitle: new Text('${task.taskDesc}'),
+                  secondary: new Icon(Icons.archive),
+                  activeColor: Colors.red,
+                  onTap: () {
+                    debugPrint(
+                        "tap ========== ${task.taskID} ${task.taskName} ${task.datetime}");
+
+                    buildShowModalBottomSheet(context, task);
+                  },
+                ),
 
                 // listTile show description
                 // child: ListTile(
@@ -167,6 +181,16 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
               ))
           .toList(),
     );
+  }
+
+  TextStyle _taskNameStyle(bool isDone){
+    
+    if (isDone){
+      return TextStyle(decoration: TextDecoration.lineThrough);
+    }
+    else{
+      return null;
+    }
   }
 
   List<Widget> _markersBuilder(context, date, events, holidays) {
@@ -270,7 +294,7 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
     );
   }
 
-  Widget _selectedDayBuilder(context, date, _) {
+  Widget _calendarSelectedDayBuilder(context, date, _) {
     return FadeTransition(
       opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
       child: Container(
