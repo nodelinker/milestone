@@ -36,19 +36,26 @@ class TaskViewModel extends ChangeNotifier{
 
   }
 
+  void deleteTask(DateTime datetime, TaskModel task){
+    String dtFmtstr = DateFormat('yyyy-MM-dd').format(datetime);
+    DateTime date = DateTime.parse(dtFmtstr);
+    List selectedEvents = tasks[date] ?? [];
+
+    selectedEvents.remove(task);
+    notifyListeners();
+  }
+
   void setTaskState(DateTime datetime, String taskId, bool state){
 
     String dtFmtstr = DateFormat('yyyy-MM-dd').format(datetime);
     DateTime date = DateTime.parse(dtFmtstr);
     List selectedEvents = tasks[date] ?? [];
 
-    debugPrint("aa => $taskId");
     TaskModel task = selectedEvents.firstWhere((item) => item.taskID == taskId, orElse: null);
     if (task != null){
       task.isDone = state;
     }
     
-
     notifyListeners();
   }
 

@@ -150,27 +150,75 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
                 // ),
 
                 // checkbox listTile
-                child: MyCheckboxListTile(
-                  value: task.isDone,
-                  onChanged: (value) {
-                    debugPrint("========== ${task.taskID} ${task.taskName}");
-                    _taskList.setTaskState(
-                        _calendarSelectedDay, task.taskID, value);
-                  },
-                  title: new Text(
-                    '${task.taskName}', 
-                    style: _taskNameStyle(task.isDone),
-                  ),
-                  controlAffinity: ListTileControlAffinity.leading,
-                  subtitle: new Text('${task.taskDesc}'),
-                  secondary: new Icon(Icons.archive),
-                  activeColor: Colors.red,
-                  onTap: () {
-                    debugPrint(
-                        "tap ========== ${task.taskID} ${task.taskName} ${task.datetime}");
+                child: Dismissible(
+                  key: Key(task.taskID),
+                  background: Container(color: Colors.red),
 
-                    buildShowModalBottomSheet(context, task);
+                  direction: DismissDirection.endToStart,
+                  dismissThresholds: {
+                    DismissDirection.startToEnd: 0.2,
+                    DismissDirection.endToStart: 0.5
                   },
+                  secondaryBackground:
+                      Container(color: Colors.red, child: Icon(Icons.cancel)),
+                  // confirmDismiss: (direction){
+                  //   if (DismissDirection.endToStart == direction){
+                  //     print('dismiss $direction');
+                  //     _taskList.deleteTask(_calendarSelectedDay, task);
+                  //     Scaffold.of(context).showSnackBar(SnackBar(content: Text("${task.taskName} dismissed")));
+                  //   }
+                  // },
+                  // onDismissed: (direction) {},
+                  confirmDismiss: (direction) async {
+                    final bool res = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Confirm"),
+                          content: const Text(
+                              "Are you sure you wish to delete this item?"),
+                          actions: <Widget>[
+                            FlatButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(true),
+                                child: const Text("DELETE")),
+                            FlatButton(
+                              onPressed: () => Navigator.of(context).pop(false),
+                              child: const Text("CANCEL"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                    if (res == true) {
+                      _taskList.deleteTask(_calendarSelectedDay, task);
+                    }
+                    return res;
+                  },
+
+                  child: MyCheckboxListTile(
+                    value: task.isDone,
+                    onChanged: (value) {
+                      debugPrint("========== ${task.taskID} ${task.taskName}");
+                      _taskList.setTaskState(
+                          _calendarSelectedDay, task.taskID, value);
+                    },
+                    title: new Text(
+                      '${task.taskName}',
+                      style: _taskNameStyle(task.isDone),
+                    ),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    subtitle: new Text('${task.taskDesc}'),
+                    secondary: new Icon(Icons.archive),
+                    activeColor: Colors.red,
+                    onTap: () {
+                      debugPrint(
+                          "tap ========== ${task.taskID} ${task.taskName} ${task.datetime}");
+
+                      buildShowModalBottomSheet(context, task);
+                    },
+                  ),
                 ),
 
                 // listTile show description
@@ -183,12 +231,10 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
     );
   }
 
-  TextStyle _taskNameStyle(bool isDone){
-    
-    if (isDone){
+  TextStyle _taskNameStyle(bool isDone) {
+    if (isDone) {
       return TextStyle(decoration: TextDecoration.lineThrough);
-    }
-    else{
+    } else {
       return null;
     }
   }
