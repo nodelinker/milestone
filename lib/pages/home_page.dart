@@ -26,7 +26,9 @@ class _MyHomePageState extends State<MyHomePage> {
       // ),
       body: Container(
         color: Colors.teal,
-        child: SafeArea(child: Container(child: CustomCalendarWidget())),
+        child: SafeArea(
+            child: Container(
+                child: CustomCalendarWidget())),
       ),
     );
   }

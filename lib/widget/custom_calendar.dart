@@ -3,6 +3,7 @@ import 'package:milestone_app/models/tasks_model.dart';
 import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
 import 'package:milestone_app/widget/bottom_sheet.dart';
 import 'package:milestone_app/widget/checkbox_list_tile.dart';
+import 'package:milestone_app/widget/spark_line.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -21,8 +22,6 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
   CalendarController _calendarController;
   TaskViewModel _taskList;
   DateTime _calendarSelectedDay;
-
-  TaskModel _showTempTask;
 
   @override
   void initState() {
@@ -67,6 +66,29 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
 
     return Column(
       children: <Widget>[
+        // Container(
+        //   padding: EdgeInsets.only(left: 25.0, right:25.0),
+        //   child: CustomPaint(
+        //     size: Size(MediaQuery.of(context).size.width,
+        //         MediaQuery.of(context).size.height / 6),
+        //     painter: TopLinePaint(),
+        //   ),
+        // ),
+        Container(
+          padding: EdgeInsets.only(left: 30.0, right:30.0),
+          child: MySparkline(
+            data: [0.0, 1, 8, 0.0, 0.0, 0.0, 0.0],
+            fallbackHeight:50.0,
+            lineWidth: 3,
+            lineColor: Colors.white,
+            pointsMode: PointsMode.all,
+            pointSize: 8.0,
+            pointColor: Colors.white,
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        ),
         Container(
           child: TableCalendar(
             locale: 'zh_CN',
