@@ -1,5 +1,6 @@
+
+
 import 'package:flutter/material.dart';
-import 'package:milestone_app/models/tasks_model.dart';
 import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
 import 'package:milestone_app/widget/bottom_sheet.dart';
 import 'package:milestone_app/widget/checkbox_list_tile.dart';
@@ -22,10 +23,13 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
   CalendarController _calendarController;
   TaskViewModel _taskList;
   DateTime _calendarSelectedDay;
+  bool _donotShowSparkLine;
 
   @override
   void initState() {
     super.initState();
+
+    _donotShowSparkLine = false;
 
     _calendarSelectedDay = DateTime.now();
 
@@ -57,7 +61,16 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
 
   void _onVisibleDaysChanged(
       DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onVisibleDaysChanged');
+    debugPrint('CALLBACK: _onVisibleDaysChangedb $first, $last, $format');
+    if (CalendarFormat.month == format) {
+      setState(() {
+        _donotShowSparkLine = true;
+      });
+    } else {
+      setState(() {
+        _donotShowSparkLine = false;
+      });
+    }
   }
 
   @override
@@ -74,16 +87,23 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
         //     painter: TopLinePaint(),
         //   ),
         // ),
-        Container(
-          padding: EdgeInsets.only(left: 30.0, right:30.0),
-          child: MySparkline(
-            data: [0.0, 1, 8, 0.0, 0.0, 0.0, 0.0],
-            fallbackHeight:50.0,
-            lineWidth: 3,
-            lineColor: Colors.white,
-            pointsMode: PointsMode.all,
-            pointSize: 8.0,
-            pointColor: Colors.white,
+        Offstage(
+          offstage: _donotShowSparkLine,
+          child: AnimatedOpacity(
+            opacity: _donotShowSparkLine ? 0.0 : 1.0,
+            duration: Duration(milliseconds: 700),
+            child: Container(
+              padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
+              child: MySparkline(
+                data: [0.0, 1, 5, 0.0, 0.0, 0.0, 0.0],
+                fallbackHeight: 30.0,
+                lineWidth: 3,
+                lineColor: Colors.white,
+                pointsMode: PointsMode.all,
+                pointSize: 8.0,
+                pointColor: Colors.white,
+              ),
+            ),
           ),
         ),
         SizedBox(
@@ -92,7 +112,7 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
         Container(
           child: TableCalendar(
             locale: 'zh_CN',
-
+            
             calendarController: _calendarController,
             startingDayOfWeek: StartingDayOfWeek.monday,
             onDaySelected: _onDaySelected,
