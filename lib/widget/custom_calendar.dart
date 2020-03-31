@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
 import 'package:milestone_app/widget/bottom_sheet.dart';
@@ -87,6 +85,102 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
         //     painter: TopLinePaint(),
         //   ),
         // ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                FlatButton(
+                  // color: Colors.blue,
+                  splashColor: Colors.teal[300],
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.reorder,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "Todo List",
+                        style: TextStyle(color: Colors.white, fontSize: 16.0),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 60,
+                  child: FlatButton(
+                    splashColor: Colors.teal[300],
+                    onPressed: () {},
+                    child: Stack(
+                      children: <Widget>[
+                        Icon(
+                          Icons.archive,
+                          color: Colors.white,
+                          size: 25,
+                        ),
+                        Positioned(
+                          right: 0,
+                          child: Container(
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: Center(
+                              child: Text(
+                                "1",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.teal,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 60,
+                  child: FlatButton(
+                    // color: Colors.blue,
+                    splashColor: Colors.teal[300],
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.cloud_off,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 60,
+                  child: FlatButton(
+                    // color: Colors.blue,
+                    splashColor: Colors.teal[300],
+                    onPressed: () {},
+                    child: Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
         Offstage(
           offstage: _donotShowSparkLine,
           child: AnimatedOpacity(
@@ -112,7 +206,7 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
         Container(
           child: TableCalendar(
             locale: 'zh_CN',
-            
+
             calendarController: _calendarController,
             startingDayOfWeek: StartingDayOfWeek.monday,
             onDaySelected: _onDaySelected,
@@ -160,7 +254,8 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
         ),
         const SizedBox(height: 8.0),
         Expanded(
-            child: Container(color: Colors.white, child: _buildTaskList())),
+          child: Container(color: Colors.white, child: _buildTaskList()),
+        ),
       ],
     );
   }
