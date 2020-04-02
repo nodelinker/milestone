@@ -16,7 +16,16 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          showSelectedLabels: false, 
+          showUnselectedLabels: false,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("home")),
+            BottomNavigationBarItem(icon: Icon(Icons.alarm), title: Text("alarm")),
+            BottomNavigationBarItem(icon: Icon(Icons.donut_large), title: Text("statistic")),
+            BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text("settings")),
+          ]),
       drawer: CustomDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -29,9 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // ),
       body: Container(
         color: Colors.teal,
-        child: SafeArea(
-            child: Container(
-                child: CustomCalendarWidget())),
+        child: SafeArea(child: Container(child: CustomCalendarWidget())),
       ),
     );
   }

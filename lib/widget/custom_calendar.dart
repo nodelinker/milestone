@@ -254,9 +254,23 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
         ),
         const SizedBox(height: 8.0),
         Expanded(
-          child: Container(color: Colors.white, child: _buildTaskList()),
+          child: Container(
+            color: Colors.white,
+            child:_taskList.isEmpty(_calendarSelectedDay)  ?  _buildTaskList(): _showEmptyPanel(),
+          ),
         ),
       ],
+    );
+  }
+
+  Widget _showEmptyPanel() {
+    return Container(
+      child: Center(
+          child: Icon(
+        Icons.settings_input_antenna,
+        size: 128,
+        color: Colors.grey[200],
+      )),
     );
   }
 
