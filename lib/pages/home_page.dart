@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:milestone_app/widget/bottom_sheet.dart';
-import 'package:milestone_app/widget/custom_calendar.dart';
-import 'package:milestone_app/widget/custom_drawer.dart';
+import 'package:milestone/widget/bottom_sheet.dart';
+import 'package:milestone/widget/custom_calendar.dart';
+import 'package:milestone/widget/custom_drawer.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({

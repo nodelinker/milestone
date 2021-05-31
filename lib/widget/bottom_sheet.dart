@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:milestone_app/models/custom_colors.dart';
-import 'package:milestone_app/models/tasks_model.dart';
-import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
+import 'package:milestone/models/custom_colors.dart';
+import 'package:milestone/models/tasks_model.dart';
+import 'package:milestone/viewmodels/tasks_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-Future buildShowModalBottomSheet(BuildContext context, showTempTask) {
+Future buildShowModalBottomSheet(context, showTempTask) {
 
   DateTime pickedDate = showTempTask?.datetime ?? DateTime.now();
   TaskModel task = TaskModel();
@@ -193,7 +193,7 @@ Future buildShowModalBottomSheet(BuildContext context, showTempTask) {
 }
 
 
- Container selectGadgetList(BuildContext context) {
+ Container selectGadgetList(context) {
     return Container(
       width: MediaQuery.of(context).size.width / 1.2,
       height: 60,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:milestone_app/models/date_model.dart';
+import 'package:milestone/models/date_model.dart';
 
 
 class CalendarDayWidget extends StatelessWidget {

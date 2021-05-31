@@ -1,7 +1,7 @@
 
 
-import 'package:milestone_app/utils/date_util.dart';
-import 'package:milestone_app/utils/lunar_util.dart';
+import 'package:milestone/utils/date_util.dart';
+import 'package:milestone/utils/lunar_util.dart';
 
 /**
  * 日期的实体类

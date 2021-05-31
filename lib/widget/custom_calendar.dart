@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
-import 'package:milestone_app/widget/bottom_sheet.dart';
-import 'package:milestone_app/widget/checkbox_list_tile.dart';
-import 'package:milestone_app/widget/spark_line.dart';
+import 'package:milestone/viewmodels/tasks_viewmodel.dart';
+import 'package:milestone/widget/bottom_sheet.dart';
+import 'package:milestone/widget/checkbox_list_tile.dart';
+import 'package:milestone/widget/spark_line.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -28,11 +28,8 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
     super.initState();
 
     _donotShowSparkLine = false;
-
     _calendarSelectedDay = DateTime.now();
-
     _calendarController = CalendarController();
-
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
@@ -48,7 +45,7 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events) {
+  void _onDaySelected(DateTime day, List events, List holidays) {
     print('CALLBACK: _onDaySelected');
 
     setState(() {
@@ -189,8 +186,8 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
             child: Container(
               padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 10.0),
               child: MySparkline(
-                data: [0.0, 1, 5, 0.0, 0.0, 0.0, 0.0],
-                fallbackHeight: 30.0,
+                data: [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0],
+                fallbackHeight: 25.0,
                 lineWidth: 3,
                 lineColor: Colors.white,
                 pointsMode: PointsMode.all,
@@ -214,6 +211,7 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget>
 
             events: _taskList.tasks,
             holidays: null,
+            rowHeight: 55,
 
             headerVisible: false, // 不显示calendar header
             initialCalendarFormat: CalendarFormat.week,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:milestone_app/pages/home_page.dart';
-import 'package:milestone_app/viewmodels/tasks_viewmodel.dart';
+import 'package:milestone/pages/home_page.dart';
+import 'package:milestone/viewmodels/tasks_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -10,7 +10,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(context) {
     return MultiProvider(
       child: MaterialApp(
         title: 'new app',
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.teal,
           primaryColor: Colors.teal,
           accentColor: Colors.teal,
-          textTheme: TextTheme(body1: TextStyle(color: Colors.purple)),
+          textTheme: TextTheme(bodyText2: TextStyle(color: Colors.purple)),
         ),
         home: MyHomePage(),
       ), 

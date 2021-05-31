@@ -1,6 +1,6 @@
 
-import 'package:milestone_app/models/date_model.dart';
-import 'package:milestone_app/utils/log_util.dart';
+import 'package:milestone/models/date_model.dart';
+import 'package:milestone/utils/log_util.dart';
 
 
 /**
@@ -196,8 +196,8 @@ class DateUtil {
     LogUtil.log(
         TAG: "DateUtil",
         message:
-            "getMonthViewLineCount:$year年$month月:有${((preIndex + monthDayCount) / 7).toInt() + 1}行");
-    return ((preIndex + monthDayCount) / 7).toInt() + 1;
+            "getMonthViewLineCount:$year年$month月:有${(preIndex + monthDayCount) ~/ 7 + 1}行");
+    return (preIndex + monthDayCount) ~/ 7 + 1;
   }
 
   /**
