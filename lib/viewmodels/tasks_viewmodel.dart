@@ -28,6 +28,15 @@ class TaskViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
+  bool isEmpty(DateTime datetime){
+    
+    String dtFmtstr = DateFormat('yyyy-MM-dd').format(datetime);
+    DateTime date = DateTime.parse(dtFmtstr);
+
+    bool bRet = tasks.containsKey(date);
+    return bRet;
+  }
+
   List<dynamic> getTasks(DateTime datetime){
 
     String dtFmtstr = DateFormat('yyyy-MM-dd').format(datetime);
